@@ -37,7 +37,6 @@ class Client(object):
             response.raise_for_status()
             return response
         except requests.exceptions.HTTPError as e:
-            print e
             for k,v in response.json().iteritems():
                 raise OpenReviewException(str(v))
 
@@ -244,7 +243,6 @@ class Client(object):
             return remove_member(group.id,[members])
         if type(members)==list:
             return remove_member(group.id,members)
-
 class Group(object):
     
     def __init__(self, id, cdate=None, ddate=None, writers=None, members=None, readers=None, nonreaders=None, signatories=None, signatures=None, web=None):
@@ -411,17 +409,16 @@ class Invitation(object):
         return self
 
 class Note(object):
-    def __init__(self, id=None, number=None, cdate=None, tcdate=None, ddate=None, content=None, forum=None, invitation=None, replyto=None, active=None, readers=None, nonreaders=None, signatures=None, writers=None):
+    def __init__(self, id, number, tcdate, ddate=None, content=None, forum=None, invitation=None, replyto=None, pdfTransfer=None, readers=None, nonreaders=None, signatures=None, writers=None):
         self.id = id
         self.number = number
-        self.cdate = cdate
         self.tcdate=tcdate
         self.ddate=ddate
         self.content = content
         self.forum = forum
         self.invitation = invitation
         self.replyto = replyto
-        self.active = active or True
+        self.pdfTransfer = pdfTransfer
         self.readers = readers
         self.nonreaders = nonreaders
         self.signatures = signatures
@@ -431,7 +428,6 @@ class Note(object):
     def to_json(self):
         body = {
             'id': self.id,
-            'cdate':self.cdate,
             'tcdate': self.tcdate,
             'ddate': self.ddate,
             'number': self.number,
@@ -439,7 +435,7 @@ class Note(object):
             'forum': self.forum,
             'invitation': self.invitation,
             'replyto': self.replyto,
-            'active': self.active,
+            'pdfTransfer': self.pdfTransfer,
             'readers': self.readers,
             'nonreaders': self.nonreaders,
             'signatures': self.signatures,
@@ -450,17 +446,15 @@ class Note(object):
 
     @classmethod
     def from_json(Note,n):
-        note = Note(
-        id = n['id'],
-        number = n['number'],
-        cdate = n['cdate'],
-        tcdate = n['tcdate'],
+        note = Note(n['id'],
+        n['number'],
+        n['tcdate'],
         ddate=n.get('ddate'),
         content=n.get('content'),
         forum=n.get('forum'),
         invitation=n.get('invitation'),
         replyto=n.get('replyto'),
-        active=n.get('active'),
+        pdfTransfer=n.get('pdfTransfer'),
         readers=n.get('readers'),
         nonreaders=n.get('nonreaders'),
         signatures=n.get('signatures'),
