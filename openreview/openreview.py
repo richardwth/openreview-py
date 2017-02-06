@@ -89,7 +89,7 @@ class Client(object):
         }
         response = requests.post(self.register_url, json=register_payload, headers=self.headers)
         response = self.__handle_response(response)
-        return str(response.json())
+        return response.json()
 
     def activate_user(self,token):
         response = requests.put(self.baseurl+'/activate/'+token,headers=self.headers)
