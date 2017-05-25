@@ -1,11 +1,20 @@
-Classes:
+# openreview-py
+A python package for interacting with the [OpenReview](https://openreview.net) API.
 
-Client(username=None, password=None, baseurl=None)
+## Installation
+You can install openreview-py from pip:
 
+```
+pip install openreview-py
+```
 
+You can also clone this repository and install it locally:
 
-Examples:
+```
+pip install <cloned_directory>
+```
 
+## Getting Started
 initialize the client and get a group
 ```
 >>> import openreview
@@ -20,29 +29,4 @@ get all notes submitted via a given invitation
 >>> second_note = notes[1]
 ```
 
-list of functions:
-```
-get_group(self, id):
-
-get_invitation(self, id):
-
-get_note(self, id):
-
-get_groups(self, prefix=None, regex=None, member=None, host=None, signatory=None):
-        
-get_invitations(self, id=None, invitee=None, replytoNote=None, replyForum=None, signature=None, note=None):
-
-get_notes(self, id=None, forum=None, invitation=None, replyto=None, tauthor=None, signature=None, writer=None, includeTrash=None, number=None):
-
-post_group(self, group, overwrite=True):
-
-post_invitation(self, invitation):
-
-post_note(self, note):
-
-send_mail(self, subject, recipients, message):
-
-add_members_to_group(self, group, members):
-    
-remove_members_from_group(self, group, members):
-```
+**Detailed API coming soon**
