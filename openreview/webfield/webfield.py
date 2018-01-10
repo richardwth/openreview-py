@@ -221,6 +221,24 @@ class TabHomepage(Webfield):
 
     self.add_function(functions.RenderSubmissionButton())
 
+
+    ## add tabs at the webfield level itself?
+    self.add_tab(tabs.AllSubmittedPapers())
+    self.add_tab(tabs.MyTasks())
+    self.add_tab(tabs.MySubmittedPapers())
+    self.add_tab(tabs.MyAssignedPapers())
+    self.add_tab(tabs.MyCommentsAndReviews())
+    #self.add_tab(tabs.WithdrawnPapers())
+
+    ## or add tabs at the RenderTab function level?
+    self.add_function(functions.RenderTabs([
+      tabs.AllSubmittedPapers(),
+      tabs.MyTasks(),
+      tabs.MySubmittedPapers(),
+      tabs.MyAssignedPapers(),
+      tabs.MyCommentsAndReviews(),
+      ]))
+
     self.add_function(functions.WebfieldFunction('renderConferenceTabs', [
       'var sections = [',
       '  {',
@@ -281,7 +299,7 @@ class TabHomepage(Webfield):
     self.add_loaded_var('authorNotes', [
       'Webfield.get(\'/notes/search\', {',
       '  term: user.profile.id,',
-      '  group: \'ICLR.cc/2018/Conference\',',
+      '  group: CONFERENCE,',
       '  content: \'authors\',',
       '  source: \'forum\'',
       '}).then(function(result) {',
@@ -327,6 +345,9 @@ class TabHomepage(Webfield):
       '      \'match the number of submitted note groups the user is a member of.\');',
       '  }',
       '',
+
+
+
       '  // My Tasks tab',
       '  if (userGroups.length) {',
       '    var tasksOptions = {',
@@ -365,6 +386,11 @@ class TabHomepage(Webfield):
       '    $(\'.tabs-container a[href="#my-tasks"]\').parent().hide();',
       '  }',
       '',
+
+
+
+
+
       '  // All Submitted Papers tab',
       '  var submissionListOptions = _.assign({}, paperDisplayOptions, {',
       '    showTags: true,',
@@ -400,6 +426,10 @@ class TabHomepage(Webfield):
       '    Webfield.setupAutoLoading(BLIND_INVITATION, PAGE_SIZE, submissionListOptions);',
       '  }',
       '',
+
+
+
+
       '  // Withdrawn Papers tab',
       '  if (withdrawnNotes.length) {',
       '    Webfield.ui.searchResults(',
@@ -410,6 +440,10 @@ class TabHomepage(Webfield):
       '    $(\'.tabs-container a[href="#withdrawn-papers"]\').parent().hide();',
       '  }',
       '',
+
+
+
+
       '  // My Submitted Papers tab',
       '  if (authorNotes.length) {',
       '    Webfield.ui.searchResults(',
@@ -430,6 +464,10 @@ class TabHomepage(Webfield):
       '    $(\'.tabs-container a[href="#my-assigned-papers"]\').parent().hide();',
       '  }',
       '',
+
+
+
+
       '  // My Comments & Reviews tab (only show if not empty)',
       '  if (commentNotes.length) {',
       '    Webfield.ui.searchResults(',
@@ -453,5 +491,13 @@ class TabHomepage(Webfield):
       '  }',
       '}',
       '',
-
     ]
+
+  def add_tab(self, webfield_tab):
+    '''
+    Given a WebfieldTab object, this function:
+    - creates a RenderConferenceTabs function if necessary,
+    - adds code to the RenderConferenceTabs function,
+    - adds code to the webfield's render_commands array
+    '''
+

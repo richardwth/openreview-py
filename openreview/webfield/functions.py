@@ -7,9 +7,8 @@ class WebfieldFunction(RenderedJS):
     self.name = name
     self.args = args
 
-    # double brackets are needed here because the RenderedJS
-    # base class expects a list of code blocks. This is a
-    # list consisting of a single code block (itself a list)
+    # the RenderedJS base class expects a list of code blocks.
+    # js_blocks is a list consisting of a single code block (itself a list)
     self.function_block = function_block
     self.js_blocks = [self.function_block]
 

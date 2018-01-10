@@ -1,5 +1,3 @@
-from rendered_js import RenderedJS
-
 '''
 Contains code related to process functions.
 
@@ -7,6 +5,9 @@ Process functions are pieces of javascript code that are executed
 when a note is posted to the process function's invitation.
 
 '''
+
+from rendered_js import RenderedJS
+
 
 class ProcessFunction(RenderedJS):
   '''
